@@ -1,6 +1,4 @@
-﻿// if drive.cs and drivermanager.cs is used hehe
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -123,7 +121,7 @@ namespace WindowsFormsApp1
                     int tr = (int)(0.393 * c.R + 0.769 * c.G + 0.189 * c.B);
                     int tg = (int)(0.349 * c.R + 0.686 * c.G + 0.168 * c.B);
                     int tb = (int)(0.272 * c.R + 0.534 * c.G + 0.131 * c.B);
-                    // Clamp values to be within [0, 255]
+                    
                     tr = Math.Min(255, tr);
                     tg = Math.Min(255, tg);
                     tb = Math.Min(255, tb);
@@ -268,14 +266,15 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            // Ensure both images are the same size
+
+            // dapat same size ang duha ka images
             if (imageA.Width != imageB.Width || imageA.Height != imageB.Height)
             {
                 label3.Text = "Images must be the same size for subtraction!";
                 return;
             }
 
-            // Initialize the result bitmap
+         
             greenColor = new Bitmap(imageB.Width, imageB.Height);
 
             Color mygreen = Color.FromArgb(0, 0, 255);
@@ -334,7 +333,7 @@ namespace WindowsFormsApp1
         }
 
 
-        // ignore this will be applied to another project :>
+        // camera stuffs huu
 
         private void onCameraDialog_Click(object sender, EventArgs e)
         {
@@ -348,7 +347,7 @@ namespace WindowsFormsApp1
                 currentDevice.Init(pictureBox1.Height, pictureBox1.Width, pictureBox1.Handle.ToInt32());
 
                 frameGrabber = new Timer();
-                frameGrabber.Interval = 100; //
+                frameGrabber.Interval = 100; 
                 frameGrabber.Tick += CaptureFrame;
                 frameGrabber.Start();
             }
@@ -358,8 +357,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        // for video filter
-
+        // for video filter, giseparate nako for video but same function will be used
         private Bitmap ApplyGreyscale(Bitmap source)
         {
             Bitmap greyscaleImage = new Bitmap(source.Width, source.Height);
@@ -420,30 +418,53 @@ namespace WindowsFormsApp1
                     var temp = data.GetData(typeof(Bitmap)) as Bitmap;
                     if (temp != null)
                     {
-                        // Always update raw video
+                      
+                        if (imageB != null) imageB.Dispose();
                         imageB = (Bitmap)temp.Clone();
                         pictureBox1.Image = imageB;
 
-                        // Processed video
-                        Bitmap processed = (Bitmap)imageB.Clone();
-
-                        switch (currentFilter)
+                       
+                        if (currentFilter != "None")
                         {
-                            case "Greyscale":
-                                processed = ApplyGreyscale(processed);
-                                break;
-                            case "Invert":
-                                processed = ApplyInvert(processed);
-                                break;
-                            case "Sepia":
-                                processed = ApplySepia(processed);
-                                break;
-                            case "None":
-                            default:
-                                break;
-                        }
+                            Bitmap frameCopy = (Bitmap)imageB.Clone();
+                            Task.Run(() =>
+                            {
+                                Bitmap processed = frameCopy;
 
-                        pictureBox2.Image = processed;
+                                switch (currentFilter)
+                                {
+                                    case "Greyscale":
+                                        processed = ApplyGreyscale(frameCopy);
+                                        break;
+                                    case "Invert":
+                                        processed = ApplyInvert(frameCopy);
+                                        break;
+                                    case "Sepia":
+                                        processed = ApplySepia(frameCopy);
+                                        break;
+                                }
+
+                                
+                                if (pictureBox2.InvokeRequired)
+                                {
+                                    pictureBox2.Invoke(new Action(() =>
+                                    {
+                                        if (pictureBox2.Image != null) pictureBox2.Image.Dispose();
+                                        pictureBox2.Image = processed;
+                                    }));
+                                }
+                                else
+                                {
+                                    if (pictureBox2.Image != null) pictureBox2.Image.Dispose();
+                                    pictureBox2.Image = processed;
+                                }
+                            });
+                        }
+                        else
+                        {
+                            
+                            pictureBox2.Image = (Bitmap)imageB.Clone();
+                        }
                     }
                 }
             }
