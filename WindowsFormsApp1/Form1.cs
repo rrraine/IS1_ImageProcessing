@@ -486,9 +486,10 @@ namespace WindowsFormsApp1
     }
 }
 
+// now, im using another virtual camera called manycam and it is suitable with the driver given. but below uses aforge (disregard lang pls)
 
 // implementation below uses aforge cus it cant detect at first my webcam and my obs. it works but laggy.
-// now, im using another virtual camera called manycam and it is suitable with the driver given.
+
 
 //using AForge.Video;
 //using AForge.Video.DirectShow;
