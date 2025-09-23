@@ -14,7 +14,6 @@ namespace WindowsFormsApp1
         FilterInfoCollection videoDevices;
         VideoCaptureDevice videoSource;
 
-        // track which filter is active
         private string currentFilter = "None";
 
         public Form1()
@@ -22,9 +21,6 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        // ------------------------
-        // CAMERA FUNCTIONS
-        // ------------------------
         private void onCameraDialog_Click(object sender, EventArgs e)
         {
             videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
@@ -50,12 +46,12 @@ namespace WindowsFormsApp1
         {
             try
             {
-                Bitmap frame = (Bitmap)eventArgs.Frame.Clone();  // raw camera frame
+                Bitmap frame = (Bitmap)eventArgs.Frame.Clone();  
                 Bitmap processedFrame = null;
 
                 if (imageB != null)
                     imageB.Dispose();
-                imageB = (Bitmap)frame.Clone(); // keep latest raw copy
+                imageB = (Bitmap)frame.Clone(); 
 
                 if (currentFilter != "None")
                     processedFrame = ApplyFilter(frame);
@@ -64,11 +60,11 @@ namespace WindowsFormsApp1
                 {
                     pictureBox1.Invoke((MethodInvoker)(() =>
                     {
-                        // Always show raw feed in PB1
+                        
                         pictureBox1.Image?.Dispose();
                         pictureBox1.Image = frame;
 
-                        // If filter is active, show filtered feed in PB2
+                        
                         if (processedFrame != null)
                         {
                             pictureBox2.Image?.Dispose();
@@ -111,9 +107,7 @@ namespace WindowsFormsApp1
             stopCameraDialog_Click(sender, e);
         }
 
-        // ------------------------
-        // FILTER ENGINE
-        // ------------------------
+      
         private Bitmap ApplyFilter(Bitmap source)
         {
             if (source == null) return null;
@@ -156,23 +150,7 @@ namespace WindowsFormsApp1
                     break;
 
                 case "Histogram":
-                    //int[] hist = new int[256];
-                    //for (int y = 0; y < source.Height; y++)
-                    //    for (int x = 0; x < source.Width; x++)
-                    //    {
-                    //        Color c = source.GetPixel(x, y);
-                    //        int gray = (c.R + c.G + c.B) / 3;
-                    //        hist[gray]++;
-                    //    }
-                    //int max = hist.Max();
-                    //using (Graphics g = Graphics.FromImage(result))
-                    //{
-                    //    for (int i = 0; i < hist.Length; i++)
-                    //    {
-                    //        int barHeight = (int)((hist[i] / (float)max) * 100);
-                    //        g.DrawLine(Pens.Red, i, result.Height - 1, i, result.Height - 1 - barHeight);
-                    //    }
-                    //}
+                  
 
                     if (imageB == null) break;
 
@@ -219,9 +197,6 @@ namespace WindowsFormsApp1
             return result;
         }
 
-        // ------------------------
-        // BUTTON EVENTS (static images)
-        // ------------------------
         private void greyscaleImage_Click(object sender, EventArgs e)
         {
             if (imageB == null) return;
@@ -253,10 +228,6 @@ namespace WindowsFormsApp1
             imageB = ApplyFilter(imageB);
             pictureBox1.Image = imageB;
         }
-
-        // ------------------------
-        // COPY IMAGE (PB1 -> PB2)
-        // ------------------------
         private void copyImage_Click(object sender, EventArgs e)
         {
             if (imageB == null)
@@ -271,9 +242,6 @@ namespace WindowsFormsApp1
         }
 
 
-        // ------------------------
-        // LOAD & SAVE EVENTS
-        // ------------------------
         private void loadImageB_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -337,9 +305,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        // ------------------------
-        // SUBTRACTION EVENT
-        // ------------------------
+        
         private void subtractionImage_Click(object sender, EventArgs e)
         {
             if (imageA == null || imageB == null)
@@ -348,18 +314,18 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            // Ensure both images are the same size
+          
             if (imageA.Width != imageB.Width || imageA.Height != imageB.Height)
             {
                 label3.Text = "Images must be the same size for subtraction!";
                 return;
             }
 
-            // Initialize the result bitmap
+           
             greenColor?.Dispose();
             greenColor = new Bitmap(imageB.Width, imageB.Height);
 
-            // Target color (blue here, but you can tweak)
+           
             Color mygreen = Color.FromArgb(0, 0, 255);
             int greygreen = (mygreen.R + mygreen.G + mygreen.B) / 3;
 
@@ -369,16 +335,16 @@ namespace WindowsFormsApp1
             {
                 for (int y = 0; y < imageB.Height; y++)
                 {
-                    Color pixel = imageB.GetPixel(x, y);   // foreground (PB1)
-                    Color backpixel = imageA.GetPixel(x, y); // background (PB2)
+                    Color pixel = imageB.GetPixel(x, y);   
+                    Color backpixel = imageA.GetPixel(x, y); 
 
                     int grey = (pixel.R + pixel.G + pixel.B) / 3;
                     int subtractvalue = Math.Abs(grey - greygreen);
 
                     if (subtractvalue < threshold)
-                        greenColor.SetPixel(x, y, backpixel); // replace with PB2
+                        greenColor.SetPixel(x, y, backpixel); 
                     else
-                        greenColor.SetPixel(x, y, pixel);     // keep PB1
+                        greenColor.SetPixel(x, y, pixel);     
                 }
             }
 
