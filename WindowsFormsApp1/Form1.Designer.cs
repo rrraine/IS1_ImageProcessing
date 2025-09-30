@@ -52,6 +52,18 @@
             this.pb1_label = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.convolutionFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smoothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaussianBlurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sharpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meanRemovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.embossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherEmbossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.embossLaplascianToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.allEmbossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lossyEmbossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalEmbossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -70,7 +82,8 @@
             this.colorInversionToolStripMenuItem,
             this.sepiaToolStripMenuItem,
             this.histogramToolStripMenuItem,
-            this.webCameraToolStripMenuItem});
+            this.webCameraToolStripMenuItem,
+            this.convolutionFiltersToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1386, 28);
@@ -291,6 +304,101 @@
             this.label3.Size = new System.Drawing.Size(0, 16);
             this.label3.TabIndex = 9;
             // 
+            // convolutionFiltersToolStripMenuItem
+            // 
+            this.convolutionFiltersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smoothToolStripMenuItem,
+            this.gaussianBlurToolStripMenuItem,
+            this.sharpenToolStripMenuItem,
+            this.meanRemovalToolStripMenuItem,
+            this.embossToolStripMenuItem,
+            this.otherEmbossToolStripMenuItem});
+            this.convolutionFiltersToolStripMenuItem.Name = "convolutionFiltersToolStripMenuItem";
+            this.convolutionFiltersToolStripMenuItem.Size = new System.Drawing.Size(146, 24);
+            this.convolutionFiltersToolStripMenuItem.Text = "Convolution Filters";
+            // 
+            // smoothToolStripMenuItem
+            // 
+            this.smoothToolStripMenuItem.Name = "smoothToolStripMenuItem";
+            this.smoothToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.smoothToolStripMenuItem.Text = "Smooth";
+            this.smoothToolStripMenuItem.Click += new System.EventHandler(this.smoothFilter_Click);
+            // 
+            // gaussianBlurToolStripMenuItem
+            // 
+            this.gaussianBlurToolStripMenuItem.Name = "gaussianBlurToolStripMenuItem";
+            this.gaussianBlurToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.gaussianBlurToolStripMenuItem.Text = "Gaussian Blur";
+            this.gaussianBlurToolStripMenuItem.Click += new System.EventHandler(this.gaussianBlurFilter_Click);
+            // 
+            // sharpenToolStripMenuItem
+            // 
+            this.sharpenToolStripMenuItem.Name = "sharpenToolStripMenuItem";
+            this.sharpenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sharpenToolStripMenuItem.Text = "Sharpen";
+            this.sharpenToolStripMenuItem.Click += new System.EventHandler(this.sharpenFilter_Click);
+            // 
+            // meanRemovalToolStripMenuItem
+            // 
+            this.meanRemovalToolStripMenuItem.Name = "meanRemovalToolStripMenuItem";
+            this.meanRemovalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.meanRemovalToolStripMenuItem.Text = "Mean Removal";
+            this.meanRemovalToolStripMenuItem.Click += new System.EventHandler(this.meanRemovalFilter_Click);
+            // 
+            // embossToolStripMenuItem
+            // 
+            this.embossToolStripMenuItem.Name = "embossToolStripMenuItem";
+            this.embossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.embossToolStripMenuItem.Text = "Emboss";
+            this.embossToolStripMenuItem.Click += new System.EventHandler(this.embossFilter_Click);
+            // 
+            // otherEmbossToolStripMenuItem
+            // 
+            this.otherEmbossToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.embossLaplascianToolStripMenuItem1,
+            this.allEmbossToolStripMenuItem,
+            this.lossyEmbossToolStripMenuItem,
+            this.horizontalEmbossToolStripMenuItem,
+            this.verticalToolStripMenuItem});
+            this.otherEmbossToolStripMenuItem.Name = "otherEmbossToolStripMenuItem";
+            this.otherEmbossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.otherEmbossToolStripMenuItem.Text = "Other Emboss";
+            // 
+            // embossLaplascianToolStripMenuItem1
+            // 
+            this.embossLaplascianToolStripMenuItem1.Name = "embossLaplascianToolStripMenuItem1";
+            this.embossLaplascianToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.embossLaplascianToolStripMenuItem1.Text = "Emboss Laplascian";
+            this.embossLaplascianToolStripMenuItem1.Click += new System.EventHandler(this.embossLaplascianFilter_Click);
+            // 
+            // allEmbossToolStripMenuItem
+            // 
+            this.allEmbossToolStripMenuItem.Name = "allEmbossToolStripMenuItem";
+            this.allEmbossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.allEmbossToolStripMenuItem.Text = "All Emboss";
+            this.allEmbossToolStripMenuItem.Click += new System.EventHandler(this.allDirectionEmbossFilter_Click);
+            // 
+            // lossyEmbossToolStripMenuItem
+            // 
+            this.lossyEmbossToolStripMenuItem.Name = "lossyEmbossToolStripMenuItem";
+            this.lossyEmbossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.lossyEmbossToolStripMenuItem.Text = "Lossy Emboss";
+            this.lossyEmbossToolStripMenuItem.Click += new System.EventHandler(this.lossyEmbossFilter_Click);
+            // 
+            // horizontalEmbossToolStripMenuItem
+            // 
+            this.horizontalEmbossToolStripMenuItem.Name = "horizontalEmbossToolStripMenuItem";
+            this.horizontalEmbossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.horizontalEmbossToolStripMenuItem.Text = "Horizontal Emboss";
+            this.horizontalEmbossToolStripMenuItem.Click += new System.EventHandler(this.horizontalEmbossFilter_Click);
+            // 
+            // verticalToolStripMenuItem
+            // 
+            this.verticalToolStripMenuItem.Name = "verticalToolStripMenuItem";
+            this.verticalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.verticalToolStripMenuItem.Text = "Vertical";
+            this.verticalToolStripMenuItem.Click += new System.EventHandler(this.verticalEmbossFilter_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -348,6 +456,18 @@
         private System.Windows.Forms.ToolStripMenuItem webCameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onCameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopCameraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convolutionFiltersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem smoothToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gaussianBlurToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sharpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem meanRemovalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem embossToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otherEmbossToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem embossLaplascianToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem allEmbossToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lossyEmbossToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem horizontalEmbossToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verticalToolStripMenuItem;
     }
 }
 
